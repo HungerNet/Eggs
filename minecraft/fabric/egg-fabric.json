@@ -30,12 +30,12 @@
         "Java 7": "ghcr.io\/mcjars\/pterodactyl-yolks:java_7"
     },
     "file_denylist": [],
-    "startup": "java -Dterminal.jline=false -Dterminal.ansi=true -Xms256M -Xmx$(({{SERVER_MEMORY}}*{{MAXIMUM_RAM}}\/100))M -jar {{SERVER_JARFILE}} nogui",
+    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M -jar {{SERVER_JARFILE}}",
     "config": {
-        "files": "{}",
-        "startup": "{\r\n    \"done\": [\r\n        \")! For help, type \",\r\n        \"Listening on \/\",\r\n        \"Server started on\",\r\n        \"Limbo server listening on\"\r\n    ]\r\n}",
-        "logs": "{}",
-        "stop": "^C"
+        "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"server-port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
+        "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs\/latest.log\"\r\n}",
+        "stop": "stop"
     },
     "scripts": {
         "installation": {
@@ -56,48 +56,8 @@
             "field_type": "text"
         },
         {
-            "name": "Maximum Ram Percentage",
-            "description": "Decide how much of your servers ram to allocate for minecraft usage, on heavy modpacks you should keep this a bit lower than usual.",
-            "env_variable": "MAXIMUM_RAM",
-            "default_value": "90",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|int|min:50|max:100",
-            "field_type": "text"
-        },
-        {
-            "name": "Log Prefix (Admin Only)",
-            "description": "",
-            "env_variable": "LOG_PREFIX",
-            "default_value": "\\033[1m\\033[33mcontainer@pterodactyl~\\033[0m",
-            "user_viewable": false,
-            "user_editable": false,
-            "rules": "required|string",
-            "field_type": "text"
-        },
-        {
-            "name": "Java Agent",
-            "description": "ADVANCED FEATURE: Set a custom java agent to use, useful for SWM or similar.",
-            "env_variable": "JAVA_AGENT",
-            "default_value": "",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "nullable|string|regex:\/^([\\w\\d._-]+)(\\.jar)$\/",
-            "field_type": "text"
-        },
-        {
-            "name": "SIMD Operations Support",
-            "description": "Add Support for SIMD Operations by adding --add-modules=jdk.incubator.vector, used in forks like Pufferfish or Purpur for improved map rendering performance. (Java 16+)",
-            "env_variable": "SIMD_OPERATIONS",
-            "default_value": "0",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|boolean",
-            "field_type": "text"
-        },
-        {
             "name": "Version",
-            "description": "The Minecraft version (e.g. 1.20.1) that should be installed when the server is reinstalled. If not specified, the latest stable version will be installed.",
+            "description": "The version of Minecraft to install. Use \"latest\" to install the latest version.",
             "env_variable": "VERSION",
             "default_value": "latest",
             "user_viewable": true,
