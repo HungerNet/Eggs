@@ -70,8 +70,8 @@
             "description": "The specific build ID (e.g. 185) that will be installed when the server is reinstalled. If not specified, the latest available build version will be used.",
             "env_variable": "BUILD",
             "default_value": "latest",
-            "user_viewable": false,
-            "user_editable": false,
+            "user_viewable": true,
+            "user_editable": true,
             "rules": "required|string",
             "field_type": "text"
         }
