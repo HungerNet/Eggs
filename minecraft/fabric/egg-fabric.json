@@ -30,7 +30,7 @@
         "Java 7": "ghcr.io\/mcjars\/pterodactyl-yolks:java_7"
     },
     "file_denylist": [],
-    "startup": "java -Xms$(({{SERVER_MEMORY}} * {{STARTUP_MEMORY_PERCENT}} / 100))M -Xmx{{SERVER_MEMORY}}M $(if {{USE_ZGC}}; then echo \"-XX:+UseZGC\"; else echo \"-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis={{GC_PAUSE_TARGET}}\"; fi) $(if {{DISABLE_EXPLICIT_GC}}; then echo \"-XX:+DisableExplicitGC\"; fi) $(if {{PRETOUCH}}; then echo \"-XX:+AlwaysPreTouch\"; fi) -jar {{SERVER_JARFILE}} nogui",
+    "startup": "java -Xms$(({{SERVER_MEMORY}} * {{STARTUP_MEMORY_PERCENT}} / 100))M -Xmx{{SERVER_MEMORY}}M $(if {{USE_ZGC}}; then echo -XX:+UseZGC; else echo -XX:+UseG1GC; fi) $(if ! {{USE_ZGC}}; then echo -XX:+ParallelRefProcEnabled; fi) $(if ! {{USE_ZGC}}; then echo -XX:MaxGCPauseMillis={{GC_PAUSE_TARGET}}; fi) $(if {{DISABLE_EXPLICIT_GC}}; then echo -XX:+DisableExplicitGC; fi) $(if {{PRETOUCH}}; then echo -XX:+AlwaysPreTouch; fi) -jar {{SERVER_JARFILE}} nogui",
     "config": {
         "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"server-port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
         "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
